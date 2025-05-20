@@ -1,15 +1,22 @@
 # gui/screen_controller.py
 import tkinter as tk
-from gui.statistics_screen import StatisticsScreen
+from tkinter import ttk
+from gui import styles
+
 
 class ScreenController(tk.Tk):
     def __init__(self):
         super().__init__()
+        styles.setup_styles()
         self.title("Hangman Game")
-        self.geometry("600x400")
+        self.geometry("800x600")
         self.resizable(False, False)
         self.frames = {}
         self.current_user = None  # <- Track current user
+
+        # Allow row and column to expand and fill the space
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
     def add_frame(self, name, frame_class):
         frame = frame_class(parent=self, controller=self)

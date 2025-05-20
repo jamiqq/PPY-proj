@@ -1,9 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import ttk, messagebox
 
-class GameScreen(tk.Frame):
+class GameScreen(ttk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent)
+        super().__init__(parent, style="TFrame")
         self.controller = controller
 
         self.secret_word = ""
@@ -12,40 +12,40 @@ class GameScreen(tk.Frame):
         self.tries_left = self.max_tries
 
         # Title
-        self.title_label = tk.Label(self, text="Hangman Game", font=("Arial", 18, "bold"))
+        self.title_label = ttk.Label(self, text="Hangman Game", style="Title.TLabel")
         self.title_label.pack(pady=10)
 
-        # Hangman canvas (placeholder for drawing)
-        self.hangman_canvas = tk.Canvas(self, width=200, height=200, bg="white")
+        # Hangman canvas (still tk.Canvas, as ttk has no canvas)
+        self.hangman_canvas = tk.Canvas(self, width=200, height=200, bg="white", highlightthickness=1, highlightbackground="#ccc")
         self.hangman_canvas.pack(pady=10)
 
         # Word display (masked word with underscores)
         self.word_var = tk.StringVar(value="Word: ")
-        self.word_label = tk.Label(self, textvariable=self.word_var, font=("Arial", 16))
+        self.word_label = ttk.Label(self, textvariable=self.word_var, style="TLabel", font=("Arial", 16))
         self.word_label.pack(pady=10)
 
         # Entry for guessing letters
         self.guess_var = tk.StringVar()
-        self.guess_entry = tk.Entry(self, textvariable=self.guess_var, width=5, font=("Arial", 16))
+        self.guess_entry = ttk.Entry(self, textvariable=self.guess_var, width=5, font=("Arial", 16))
         self.guess_entry.pack(pady=5)
         self.guess_entry.focus_set()
 
         # Guess button
-        self.guess_button = tk.Button(self, text="Guess", command=self.guess_letter)
+        self.guess_button = ttk.Button(self, text="Guess", command=self.guess_letter, style="TButton")
         self.guess_button.pack(pady=5)
 
         # Feedback message label
         self.feedback_var = tk.StringVar()
-        self.feedback_label = tk.Label(self, textvariable=self.feedback_var, font=("Arial", 14))
+        self.feedback_label = ttk.Label(self, textvariable=self.feedback_var, style="TLabel", font=("Arial", 14))
         self.feedback_label.pack(pady=10)
 
         # Tries left label
         self.tries_var = tk.StringVar(value=f"Tries left: {self.tries_left}")
-        self.tries_label = tk.Label(self, textvariable=self.tries_var, font=("Arial", 14))
+        self.tries_label = ttk.Label(self, textvariable=self.tries_var, style="TLabel", font=("Arial", 14))
         self.tries_label.pack(pady=5)
 
         # Back button
-        self.back_button = tk.Button(self, text="Back to Menu", command=self.back_to_menu)
+        self.back_button = ttk.Button(self, text="Back to Menu", command=self.back_to_menu, style="TButton")
         self.back_button.pack(pady=10)
 
     def set_word(self, word):
@@ -103,29 +103,23 @@ class GameScreen(tk.Frame):
         self.hangman_canvas.delete("all")
 
     def draw_hangman(self):
-        # Simple stick figure drawing progressing by tries lost
         self.clear_hangman()
         tries_used = self.max_tries - self.tries_left
 
-        # Base
+        # Draw hangman steps
         if tries_used >= 1:
             self.hangman_canvas.create_line(20, 180, 180, 180, width=2)  # ground
-        # Pole
         if tries_used >= 2:
-            self.hangman_canvas.create_line(50, 180, 50, 20, width=2)
-        # Beam
+            self.hangman_canvas.create_line(50, 180, 50, 20, width=2)    # pole
         if tries_used >= 3:
-            self.hangman_canvas.create_line(50, 20, 120, 20, width=2)
-        # Rope
+            self.hangman_canvas.create_line(50, 20, 120, 20, width=2)    # beam
         if tries_used >= 4:
-            self.hangman_canvas.create_line(120, 20, 120, 40, width=2)
-        # Head
+            self.hangman_canvas.create_line(120, 20, 120, 40, width=2)   # rope
         if tries_used >= 5:
-            self.hangman_canvas.create_oval(100, 40, 140, 80, width=2)
-        # Body
+            self.hangman_canvas.create_oval(100, 40, 140, 80, width=2)   # head
         if tries_used >= 6:
-            self.hangman_canvas.create_line(120, 80, 120, 130, width=2)
-            self.hangman_canvas.create_line(120, 90, 90, 110, width=2)  # left arm
+            self.hangman_canvas.create_line(120, 80, 120, 130, width=2)  # body
+            self.hangman_canvas.create_line(120, 90, 90, 110, width=2)   # left arm
             self.hangman_canvas.create_line(120, 90, 150, 110, width=2)  # right arm
             self.hangman_canvas.create_line(120, 130, 90, 160, width=2)  # left leg
-            self.hangman_canvas.create_line(120, 130, 150, 160, width=2)  # right leg
+            self.hangman_canvas.create_line(120, 130, 150, 160, width=2) # right leg

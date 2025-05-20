@@ -1,23 +1,36 @@
 # gui/main_menu.py
 import tkinter as tk
 from tkinter import messagebox, filedialog
+from tkinter import ttk
+from gui import styles
 
 
-class MainMenu(tk.Frame):
+class MainMenu(ttk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
 
-        self.label = tk.Label(self, text="Main Menu", font=("Arial", 20))
+        self.configure(style="TFrame")
+
+        self.label = ttk.Label(self, text="Main Menu", font=styles.FONT_TITLE, foreground=styles.TEXT_COLOR)
         self.label.pack(pady=20)
 
-        tk.Button(self, text="Play", width=20, command=self.play).pack(pady=5)
-        tk.Button(self, text="Statistics", width=20, command=self.stats ).pack(pady=5)
-        tk.Button(self, text="Add Category", width=20, command=self.add_category).pack(pady=5)
-        tk.Button(self, text="Switch User", width=20, command=self.switch_user).pack(pady=5)
-        tk.Button(self, text="Exit", width=20, command=self.controller.quit).pack(pady=5)
+        btn_play = ttk.Button(self, text="Play", width=20, command=self.play)
+        btn_play.pack(pady=5)
 
-        self.user_label = tk.Label(self, text="", fg="gray")
+        btn_stats = ttk.Button(self, text="Statistics", width=20, command=self.stats)
+        btn_stats.pack(pady=5)
+
+        btn_add_cat = ttk.Button(self, text="Add Category", width=20, command=self.add_category)
+        btn_add_cat.pack(pady=5)
+
+        btn_switch = ttk.Button(self, text="Switch User", width=20, command=self.switch_user)
+        btn_switch.pack(pady=5)
+
+        btn_exit = ttk.Button(self, text="Exit", width=20, command=self.controller.quit)
+        btn_exit.pack(pady=5)
+
+        self.user_label = ttk.Label(self, text="", foreground="gray")
         self.user_label.pack(pady=10)
 
     def tkraise(self, *args, **kwargs):

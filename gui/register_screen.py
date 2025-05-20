@@ -1,25 +1,33 @@
-# gui/register_screen.py
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
 from auth.auth import register_user
 
-class RegisterScreen(tk.Frame):
+class RegisterScreen(ttk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
 
-        tk.Label(self, text="Register", font=("Arial", 18)).pack(pady=20)
+        self.configure(style="TFrame")
 
-        tk.Label(self, text="New Username").pack()
-        self.username_entry = tk.Entry(self)
+        title = ttk.Label(self, text="Register", style="Title.TLabel")
+        title.pack(pady=20)
+
+        lbl_username = ttk.Label(self, text="New Username", style="TLabel")
+        lbl_username.pack()
+        self.username_entry = ttk.Entry(self)
         self.username_entry.pack()
 
-        tk.Label(self, text="New Password").pack()
-        self.password_entry = tk.Entry(self, show="*")
+        lbl_password = ttk.Label(self, text="New Password", style="TLabel")
+        lbl_password.pack()
+        self.password_entry = ttk.Entry(self, show="*")
         self.password_entry.pack()
 
-        tk.Button(self, text="Create Account", command=self.register).pack(pady=10)
-        tk.Button(self, text="Back to Login", command=lambda: controller.show_frame("Login")).pack()
+        btn_create = ttk.Button(self, text="Create Account", command=self.register, style="TButton")
+        btn_create.pack(pady=10)
+
+        btn_back = ttk.Button(self, text="Back to Login", command=lambda: controller.show_frame("Login"), style="TButton")
+        btn_back.pack()
 
     def register(self):
         username = self.username_entry.get()
