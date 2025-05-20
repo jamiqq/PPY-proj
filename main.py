@@ -4,7 +4,8 @@ from gui.login_screen import LoginScreen
 from gui.register_screen import RegisterScreen
 from gui.main_menu import MainMenu
 from gui.statistics_screen import StatisticsScreen
-
+from gui.play_selection_screen import PlaySelectionScreen
+from gui.game_screen import GameScreen
 
 def start_app():
     app = ScreenController()
@@ -12,6 +13,8 @@ def start_app():
     app.add_frame("Register", RegisterScreen)
     app.add_frame("MainMenu", MainMenu)
     app.add_frame("StatisticsScreen", StatisticsScreen)
+    app.add_frame("PlaySelectionScreen", PlaySelectionScreen)
+    app.add_frame("GameScreen", GameScreen)
     # Add other screens similarly
 
     app.show_frame("Login")
