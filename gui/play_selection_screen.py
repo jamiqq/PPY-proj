@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+from gui.classic_mode import ClassicGameWindow
+
+
 class PlaySelectionScreen(ttk.Frame):  # inherit from ttk.Frame
     def __init__(self, parent, controller):
         super().__init__(parent)
@@ -25,7 +28,8 @@ class PlaySelectionScreen(ttk.Frame):  # inherit from ttk.Frame
         btn_back.pack(pady=20)
 
     def play_classic(self):
-        messagebox.showinfo("Classic Mode", "Classic mode selected. (To be implemented)")
+        classic = ClassicGameWindow(self.controller)
+        classic.grab_set()
 
     def play_custom(self):
         popup = tk.Toplevel(self)

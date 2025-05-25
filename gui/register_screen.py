@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
-from auth.auth import register_user
+from db_handling.user_db import register_user
 
 class RegisterScreen(ttk.Frame):
     def __init__(self, parent, controller):

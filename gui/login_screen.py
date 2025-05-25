@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
-from auth.auth import login_user
+from db_handling.user_db import login_user
 
 class LoginScreen(ttk.Frame):  # Inherit from ttk.Frame
     def __init__(self, parent, controller):
