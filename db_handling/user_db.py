@@ -4,10 +4,11 @@ import sqlite3
 DB_PATH = "./databases/users.db"
 
 def hash_password(password):
-    return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+
 
 def verify_password(input_password, stored_hash):
-    return bcrypt.checkpw(input_password.encode(), stored_hash.encode())
+    return bcrypt.checkpw(input_password.encode(), stored_hash)
 
 def register_user(username, password):
     with sqlite3.connect(DB_PATH) as conn:

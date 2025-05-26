@@ -1,4 +1,5 @@
 # main.py
+from gui.classic_mode import ClassicGameSetupScreen
 from gui.screen_controller import ScreenController
 from gui.login_screen import LoginScreen
 from gui.register_screen import RegisterScreen
@@ -15,6 +16,7 @@ def start_app():
     app.add_frame("StatisticsScreen", StatisticsScreen)
     app.add_frame("PlaySelectionScreen", PlaySelectionScreen)
     app.add_frame("GameScreen", GameScreen)
+    app.add_frame("ClassicGameSetupScreen", ClassicGameSetupScreen)
     # Add other screens similarly
 
     app.show_frame("Login")

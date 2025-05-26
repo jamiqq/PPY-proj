@@ -2,40 +2,38 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from db_handling.words_db import get_random_word
 
-class ClassicGameWindow(tk.Toplevel):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.title("Classic Game Mode")
-        self.geometry("400x300")
-        self.resizable(False, False)
+class ClassicGameSetupScreen(ttk.Frame):
+    def __init__(self, parent, controller):
+        super().__init__(parent, style="TFrame")
+        self.controller = controller
 
         self.category_var = tk.StringVar()
         self.difficulty_var = tk.StringVar()
 
-        self.word = None
-        self.hidden_word = None
+        # Container frame to centralize content
+        container = ttk.Frame(self)
+        container.pack(expand=True)
 
-        self.create_widgets()
-        self.load_categories()
+        # Title
+        ttk.Label(container, text="Choose Game Options", style="Title.TLabel").pack(pady=20)
 
-    def create_widgets(self):
-        ttk.Label(self, text="Select Category:").pack(pady=(20,5))
-        self.category_cb = ttk.Combobox(self, textvariable=self.category_var, state="readonly")
+        # Category
+        ttk.Label(container, text="Select Category:", style="TLabel").pack(pady=(10, 5))
+        self.category_cb = ttk.Combobox(container, textvariable=self.category_var, state="readonly")
         self.category_cb.pack()
 
-        ttk.Label(self, text="Select Difficulty:").pack(pady=(20,5))
-        self.difficulty_cb = ttk.Combobox(self, textvariable=self.difficulty_var, state="readonly")
+        # Difficulty
+        ttk.Label(container, text="Select Difficulty:", style="TLabel").pack(pady=(10, 5))
+        self.difficulty_cb = ttk.Combobox(container, textvariable=self.difficulty_var, state="readonly")
         self.difficulty_cb['values'] = ('Easy', 'Medium', 'Hard')
         self.difficulty_cb.pack()
 
-        self.start_btn = ttk.Button(self, text="Start Game", command=self.start_game)
-        self.start_btn.pack(pady=20)
+        # Start button
+        ttk.Button(container, text="Start Game", command=self.start_game).pack(pady=20)
 
-        self.word_label = ttk.Label(self, text="", font=("Courier", 24))
-        self.word_label.pack(pady=10)
+        self.load_categories()
 
     def load_categories(self):
-        # Load categories directly from DB for dropdown
         import sqlite3
         conn = sqlite3.connect("./databases/words.db")
         c = conn.cursor()
@@ -49,25 +47,15 @@ class ClassicGameWindow(tk.Toplevel):
         self.difficulty_cb.current(0)
 
     def start_game(self):
-        difficulty = self.difficulty_var.get()
         category = self.category_var.get()
+        difficulty = self.difficulty_var.get()
 
         word = get_random_word(difficulty, category)
         if not word:
-            messagebox.showerror("No words found", "No words found for the selected category and difficulty.")
+            messagebox.showerror("No words", "No words found for selected options.")
             return
 
-        self.word = word.lower()
-        self.hidden_word = ['_' if ch.isalpha() else ch for ch in self.word]
-        self.update_word_display()
-
-        # Disable controls during game
-        self.category_cb.config(state='disabled')
-        self.difficulty_cb.config(state='disabled')
-        self.start_btn.config(state='disabled')
-
-        # Hook guess input here or link to your existing guess logic
-
-    def update_word_display(self):
-        display = ' '.join(self.hidden_word)
-        self.word_label.config(text=display)
+        # Pass the word to GameScreen and show it
+        game_screen = self.controller.frames["GameScreen"]
+        game_screen.set_word(word)
+        self.controller.show_frame("GameScreen")
