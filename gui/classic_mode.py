@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from db_handling.words_db import get_random_word
+from gui.styles.sound_manager import play_sound_effect
+
 
 class ClassicGameSetupScreen(ttk.Frame):
     def __init__(self, parent, controller):
@@ -29,7 +31,7 @@ class ClassicGameSetupScreen(ttk.Frame):
         self.difficulty_cb.pack()
 
         # Start button
-        ttk.Button(container, text="Start Game", command=self.start_game).pack(pady=20)
+        ttk.Button(container, text="Start Game", command=lambda: (play_sound(), self.start_game())).pack(pady=20)
 
         self.load_categories()
 
@@ -59,3 +61,7 @@ class ClassicGameSetupScreen(ttk.Frame):
         game_screen = self.controller.frames["GameScreen"]
         game_screen.set_word(word)
         self.controller.show_frame("GameScreen")
+
+
+def play_sound():
+    play_sound_effect("assets/sfx/click.wav")

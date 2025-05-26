@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 from db_handling.user_db import login_user
+from gui.styles.sound_manager import play_sound_effect
 
 class LoginScreen(ttk.Frame):  # Inherit from ttk.Frame
     def __init__(self, parent, controller):
@@ -20,8 +21,8 @@ class LoginScreen(ttk.Frame):  # Inherit from ttk.Frame
         self.password_entry = ttk.Entry(self, show="*")
         self.password_entry.pack()
 
-        ttk.Button(self, text="Login", command=self.login, style="TButton").pack(pady=10)
-        ttk.Button(self, text="Register", command=lambda: controller.show_frame("Register"), style="TButton").pack()
+        ttk.Button(self, text="Login", command=lambda: (play_sound(), self.login()), style="TButton").pack(pady=10)
+        ttk.Button(self, text="Register", command=lambda: (play_sound(), controller.show_frame("Register")), style="TButton").pack()
 
     def login(self):
         username = self.username_entry.get()
@@ -33,3 +34,6 @@ class LoginScreen(ttk.Frame):  # Inherit from ttk.Frame
             self.controller.show_frame("MainMenu")
         else:
             messagebox.showerror("Error", message)
+
+def play_sound():
+    play_sound_effect("assets/sfx/click.wav")

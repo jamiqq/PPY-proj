@@ -7,6 +7,8 @@ from gui.main_menu import MainMenu
 from gui.statistics_screen import StatisticsScreen
 from gui.play_selection_screen import PlaySelectionScreen
 from gui.game_screen import GameScreen
+from gui.styles.sound_manager import play_background_music
+
 
 def start_app():
     app = ScreenController()
@@ -23,7 +25,9 @@ def start_app():
     app.mainloop()
 
 if __name__ == "__main__":
+    play_background_music("assets/music/theme.mp3")
     start_app()
+
 
 # App Start
 # └── Login/Register Screen (required)

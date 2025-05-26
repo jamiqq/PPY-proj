@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+from gui.styles.sound_manager import play_sound_effect
+
+
 class GameScreen(ttk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent, style="TFrame")
@@ -31,7 +34,7 @@ class GameScreen(ttk.Frame):
         self.guess_entry.focus_set()
 
         # Guess button
-        self.guess_button = ttk.Button(self, text="Guess", command=self.guess_letter, style="TButton")
+        self.guess_button = ttk.Button(self, text="Guess", command=lambda: (play_sound(), self.guess_letter()), style="TButton")
         self.guess_button.pack(pady=5)
 
         # Feedback message label
@@ -45,7 +48,7 @@ class GameScreen(ttk.Frame):
         self.tries_label.pack(pady=5)
 
         # Back button
-        self.back_button = ttk.Button(self, text="Back to Menu", command=self.back_to_menu, style="TButton")
+        self.back_button = ttk.Button(self, text="Back to Menu", command=lambda: (play_sound(), self.back_to_menu()), style="TButton")
         self.back_button.pack(pady=10)
 
     def set_word(self, word):
@@ -123,3 +126,7 @@ class GameScreen(ttk.Frame):
             self.hangman_canvas.create_line(120, 90, 150, 110, width=2)  # right arm
             self.hangman_canvas.create_line(120, 130, 90, 160, width=2)  # left leg
             self.hangman_canvas.create_line(120, 130, 150, 160, width=2) # right leg
+
+
+def play_sound():
+    play_sound_effect("assets/sfx/click.wav")
