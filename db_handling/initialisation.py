@@ -1,7 +1,6 @@
-import sqlite3
 import sqlite3 as s
 import bcrypt
-
+# Function to connect to "users" database
 def user_connect():
     return s.connect("databases/users.db")
 
@@ -30,6 +29,7 @@ for username, pwd_hash in test_users:
 user_conn.commit()
 user_conn.close()
 
+# Function to connect to "words" database
 def words_connect():
     return s.connect("databases/words.db")
 

@@ -29,7 +29,6 @@ if __name__ == "__main__":
     play_background_music("assets/music/theme.mp3")
     start_app()
 
-
 # App Start
 # └── Login/Register Screen (required)
 #     └── Main Menu (after login)

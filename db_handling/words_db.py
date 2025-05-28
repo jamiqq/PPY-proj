@@ -3,6 +3,7 @@ import random
 
 DB_PATH = "./databases/words.db"
 
+# Selecting random word (using ORDER BY RANDOM() LIMIT 1 + applied filters and category) from words database
 def get_random_word(difficulty=None, category=None):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -25,14 +26,17 @@ def get_random_word(difficulty=None, category=None):
     if filters:
         query += " WHERE " + " AND ".join(filters)
 
+    query += "ORDER BY RANDOM() LIMIT 1"
+
     c.execute(query, params)
-    words = [row[0] for row in c.fetchall()]
+    row = c.fetchone()
     conn.close()
 
-    if not words:
-        return None
-    return random.choice(words)
+    if row:
+        return row[0]
+    return None
 
+# Adding category to category table
 def add_category(name):
     conn = sqlite3.connect(DB_PATH)
     curs = conn.cursor()
@@ -44,6 +48,7 @@ def add_category(name):
     finally:
         conn.close()
 
+# Selecting categories from categories table
 def get_categories():
     conn = sqlite3.connect(DB_PATH)
     curs = conn.cursor()
@@ -52,6 +57,7 @@ def get_categories():
     conn.close()
     return categories
 
+# Adding word to words table
 def add_word(word, difficulty, category_id):
     conn = sqlite3.connect(DB_PATH)
     curs = conn.cursor()

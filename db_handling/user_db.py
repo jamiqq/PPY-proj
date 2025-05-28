@@ -3,13 +3,15 @@ import sqlite3
 
 DB_PATH = "./databases/users.db"
 
+# Hashing of user's password via bcrypt library
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
-
+# Verification of password (dehashing)
 def verify_password(input_password, stored_hash):
     return bcrypt.checkpw(input_password.encode(), stored_hash)
 
+# Adding user to database via username and hashed password
 def register_user(username, password):
     with sqlite3.connect(DB_PATH) as conn:
         c = conn.cursor()
@@ -21,6 +23,7 @@ def register_user(username, password):
         except sqlite3.IntegrityError:
             return False, "Username already exists."
 
+# Getting user from database via username and password(verification of password using provided password and the one stored in database)
 def login_user(username, password):
     with sqlite3.connect(DB_PATH) as conn:
         c = conn.cursor()
@@ -31,6 +34,7 @@ def login_user(username, password):
         else:
             return False, "Invalid username or password."
 
+# Getting user's stats(games played, games won, games lost) from database via username + calculating win rate
 def get_user_stats(username):
     conn = sqlite3.connect(DB_PATH)
     curs = conn.cursor()
@@ -48,6 +52,7 @@ def get_user_stats(username):
         }
     return None
 
+# Updating stats data in database via username and won parameter(bool)
 def update_user_stats(username, won):
     conn = sqlite3.connect(DB_PATH)
     curs = conn.cursor()
