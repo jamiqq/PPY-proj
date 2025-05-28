@@ -31,6 +31,8 @@ class CategoryWordUploader(ttk.Frame):
 
         self.refresh_categories()
 
+        ttk.Button(self, text="Back to Menu", command=lambda: ( controller.show_frame("MainMenu"))).pack(pady=10)
+
     def refresh_categories(self):
         categories = get_categories()
         self.cat_dict = {name: cid for cid, name in categories}

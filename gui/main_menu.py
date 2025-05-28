@@ -47,22 +47,7 @@ class MainMenu(ttk.Frame):
         self.controller.show_frame("StatisticsScreen")
 
     def add_category(self):
-        # Open file dialog to select a file
-        file_path = filedialog.askopenfilename(
-            title="Select a Category File",
-            filetypes=[("Text Files", "*.txt")]
-        )
-        if not file_path:
-            # User cancelled
-            return
-
-        # Check if selected file is a .txt file
-        if not file_path.lower().endswith('.txt'):
-            messagebox.showerror("Invalid File", "Please select a valid .txt file.")
-            return
-
-        # Success feedback (actual parsing will be later)
-        messagebox.showinfo("File Selected", f"Selected category file:\n{file_path}")
+        self.controller.show_frame("AddCategoryScreen")
 
     def switch_user(self):
         self.controller.set_user(None)

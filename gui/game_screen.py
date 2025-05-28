@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+from db_handling.user_db import update_user_stats
 from gui.styles.sound_manager import play_sound_effect
 
 
@@ -93,6 +94,9 @@ class GameScreen(ttk.Frame):
                 self.end_game(won=False)
 
     def end_game(self, won):
+        user = self.controller.get_user()
+        if user:
+            update_user_stats(user, won=won)
         if won:
             messagebox.showinfo("Game Over", f"Congratulations! You guessed the word: {self.secret_word}")
         else:

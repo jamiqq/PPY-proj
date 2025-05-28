@@ -1,8 +1,9 @@
+import sqlite3
 import sqlite3 as s
 import bcrypt
 
 def user_connect():
-    return s.connect("/databases/users.db")
+    return s.connect("databases/users.db")
 
 user_conn = user_connect()
 user_cursor = user_conn.cursor()
@@ -22,7 +23,7 @@ test_users = [
 
 for username, pwd_hash in test_users:
     try:
-        user_cursor.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)", (username, pwd_hash))
+        user_cursor.execute("INSERT INTO users (username, password_hash, games_played, games_won, games_lost) VALUES (?, ?, 0, 0, 0)", (username, pwd_hash))
     except s.IntegrityError:
         pass
 
@@ -30,7 +31,7 @@ user_conn.commit()
 user_conn.close()
 
 def words_connect():
-    return s.connect("./databases/words.db")
+    return s.connect("databases/words.db")
 
 words_conn = words_connect()
 words_cursor = words_conn.cursor()

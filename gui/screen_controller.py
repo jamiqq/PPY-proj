@@ -1,7 +1,5 @@
 # gui/screen_controller.py
 import tkinter as tk
-from tkinter import ttk
-
 from gui.styles import styles
 
 

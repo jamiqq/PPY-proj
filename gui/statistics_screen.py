@@ -1,8 +1,7 @@
-import tkinter as tk
 from tkinter import ttk
 
 from gui.styles.sound_manager import play_sound_effect
-
+from db_handling.user_db import get_user_stats
 
 class StatisticsScreen(ttk.Frame):
     def __init__(self, parent, controller):
@@ -21,20 +20,21 @@ class StatisticsScreen(ttk.Frame):
         back_button.pack(pady=20)
 
     def refresh_stats(self):
-        user = self.controller.current_user
-        mock_stats = {
-            "games_played": 12,
-            "games_won": 7,
-            "games_lost": 5
-        }
-        stats_text = (
-            f"Username: {user}\n\n"
-            f"Games Played: {mock_stats['games_played']}\n"
-            f"Games Won: {mock_stats['games_won']}\n"
-            f"Games Lost: {mock_stats['games_lost']}"
-        )
-        self.stats_label.config(text=stats_text)
+        username = self.controller.get_user()
+        stats = get_user_stats(username)
 
+        if stats:
+            stats_text = (
+                f"Username: {username}\n\n"
+                f"Games Played: {stats['games_played']}\n"
+                f"Games Won: {stats['games_won']}\n"
+                f"Games Lost: {stats['games_lost']}\n"
+                f"Win Rate: {stats['win_rate']}%"
+            )
+        else:
+            stats_text = "No statistics available for this user."
+
+        self.stats_label.config(text=stats_text)
 
 def play_sound():
     play_sound_effect("assets/sfx/click.wav")
