@@ -33,6 +33,8 @@ class ClassicGameSetupScreen(ttk.Frame):
         # Start button
         ttk.Button(container, text="Start Game", command=lambda: (play_sound(), self.start_game())).pack(pady=20)
 
+        ttk.Button(container, text="Back", command=lambda: (play_sound(), controller.show_frame("MainMenu")), style="TButton").pack(pady=5)
+
         self.load_categories()
 
     def load_categories(self):
