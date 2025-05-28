@@ -4,9 +4,9 @@ from tkinter import ttk
 from db_handling.user_db import register_user
 from gui.styles.sound_manager import play_sound_effect
 
-
 class RegisterScreen(ttk.Frame):
     def __init__(self, parent, controller):
+        # Initializes the registration screen with input fields and navigation buttons.
         super().__init__(parent)
         self.controller = controller
 
@@ -31,6 +31,7 @@ class RegisterScreen(ttk.Frame):
         btn_back = ttk.Button(self, text="Back to Login", command=lambda: (play_sound(), controller.show_frame("Login")), style="TButton")
         btn_back.pack()
 
+    # Handles registration logic: creates a new user and navigates back to login on success.
     def register(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
@@ -41,5 +42,6 @@ class RegisterScreen(ttk.Frame):
         else:
             messagebox.showerror("Error", message)
 
+# Plays a click sound effect when triggered.
 def play_sound():
     play_sound_effect("assets/sfx/click.wav")

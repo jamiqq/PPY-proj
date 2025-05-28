@@ -6,13 +6,13 @@ from gui.styles.sound_manager import play_sound_effect
 
 class ClassicGameSetupScreen(ttk.Frame):
     def __init__(self, parent, controller):
+        # Initializes the screen for selecting category and difficulty before starting a classic game.
         super().__init__(parent, style="TFrame")
         self.controller = controller
 
         self.category_var = tk.StringVar()
         self.difficulty_var = tk.StringVar()
 
-        # Container frame to centralize content
         container = ttk.Frame(self)
         container.pack(expand=True)
 
@@ -32,11 +32,11 @@ class ClassicGameSetupScreen(ttk.Frame):
 
         # Start button
         ttk.Button(container, text="Start Game", command=lambda: (play_sound(), self.start_game())).pack(pady=20)
-
         ttk.Button(container, text="Back", command=lambda: (play_sound(), controller.show_frame("MainMenu")), style="TButton").pack(pady=5)
 
         self.load_categories()
 
+    # Loads category names from the database and populates the combobox.
     def load_categories(self):
         import sqlite3
         conn = sqlite3.connect("./databases/words.db")
@@ -50,6 +50,7 @@ class ClassicGameSetupScreen(ttk.Frame):
             self.category_cb.current(0)
         self.difficulty_cb.current(0)
 
+    # Starts the game with the selected category and difficulty; fetches a word and shows GameScreen.
     def start_game(self):
         category = self.category_var.get()
         difficulty = self.difficulty_var.get()
@@ -59,11 +60,11 @@ class ClassicGameSetupScreen(ttk.Frame):
             messagebox.showerror("No words", "No words found for selected options.")
             return
 
-        # Pass the word to GameScreen and show it
         game_screen = self.controller.frames["GameScreen"]
         game_screen.set_word(word)
         self.controller.show_frame("GameScreen")
 
 
+# Plays a click sound effect when triggered.
 def play_sound():
     play_sound_effect("assets/sfx/click.wav")

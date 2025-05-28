@@ -4,6 +4,7 @@ from db_handling.words_db import *
 
 class CategoryWordUploader(ttk.Frame):
     def __init__(self, parent, controller):
+        # Initialize the UI elements for category and word management.
         super().__init__(parent)
         self.cat_dict = None
         self.controller = controller
@@ -33,6 +34,7 @@ class CategoryWordUploader(ttk.Frame):
 
         ttk.Button(self, text="Back to Menu", command=lambda: ( controller.show_frame("MainMenu"))).pack(pady=10)
 
+    # Refresh the categories combobox with current categories from the database.
     def refresh_categories(self):
         categories = get_categories()
         self.cat_dict = {name: cid for cid, name in categories}
@@ -40,6 +42,7 @@ class CategoryWordUploader(ttk.Frame):
         if categories:
             self.category_combo.current(0)
 
+    # Add a new category to the database and refresh the list.
     def add_category(self):
         cat_name = self.new_cat_var.get().strip()
         if not cat_name:
@@ -50,6 +53,7 @@ class CategoryWordUploader(ttk.Frame):
         self.new_cat_var.set("")
         self.refresh_categories()
 
+    # Add a new word with selected difficulty and category to the database.
     def add_word(self):
         word = self.word_var.get().strip()
         difficulty = self.diff_var.get()

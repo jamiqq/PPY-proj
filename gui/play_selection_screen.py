@@ -5,8 +5,9 @@ from tkinter import ttk
 from gui.styles.sound_manager import play_sound_effect
 
 
-class PlaySelectionScreen(ttk.Frame):  # inherit from ttk.Frame
+class PlaySelectionScreen(ttk.Frame):
     def __init__(self, parent, controller):
+        # Initializes the screen for selecting game mode (classic or custom).
         super().__init__(parent)
         self.controller = controller
 
@@ -24,15 +25,17 @@ class PlaySelectionScreen(ttk.Frame):  # inherit from ttk.Frame
         btn_back = ttk.Button(self, text="Back to Menu", command=lambda: (play_sound(), controller.show_frame("MainMenu")), style="TButton")
         btn_back.pack(pady=20)
 
+    # Navigates to the classic game setup screen.
     def play_classic(self):
         self.controller.show_frame("ClassicGameSetupScreen")
 
+    # Opens a popup for entering a custom secret word and starts the game if input is valid.
     def play_custom(self):
         popup = tk.Toplevel(self)
         popup.title("Enter Custom Word")
         popup.geometry("400x250")
         popup.resizable(True, True)
-        popup.grab_set()  # Make modal
+        popup.grab_set()
 
         label = ttk.Label(popup, text="Enter the secret word:", style="TLabel")
         label.pack(pady=10)
@@ -64,5 +67,6 @@ class PlaySelectionScreen(ttk.Frame):  # inherit from ttk.Frame
         btn_back.pack(side="right", padx=20, pady=20)
 
 
+# Plays a click sound effect when triggered.
 def play_sound():
     play_sound_effect("assets/sfx/click.wav")

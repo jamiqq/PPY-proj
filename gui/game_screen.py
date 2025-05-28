@@ -7,6 +7,7 @@ from gui.styles.sound_manager import play_sound_effect
 
 class GameScreen(ttk.Frame):
     def __init__(self, parent, controller):
+        # Initialize the game screen UI components and variables.
         super().__init__(parent, style="TFrame")
         self.controller = controller
 
@@ -19,7 +20,7 @@ class GameScreen(ttk.Frame):
         self.title_label = ttk.Label(self, text="Hangman Game", style="Title.TLabel")
         self.title_label.pack(pady=10)
 
-        # Hangman canvas (still tk.Canvas, as ttk has no canvas)
+        # Hangman canvas
         self.hangman_canvas = tk.Canvas(self, width=200, height=200, bg="white", highlightthickness=1, highlightbackground="#ccc")
         self.hangman_canvas.pack(pady=10)
 
@@ -52,6 +53,7 @@ class GameScreen(ttk.Frame):
         self.back_button = ttk.Button(self, text="Back to Menu", command=lambda: (play_sound(), self.back_to_menu()), style="TButton")
         self.back_button.pack(pady=10)
 
+    # Sets a new secret word and resets the game state.
     def set_word(self, word):
         self.secret_word = word.lower()
         self.guessed_letters = set()
@@ -62,10 +64,12 @@ class GameScreen(ttk.Frame):
         self.clear_hangman()
         self.guess_entry.focus_set()
 
+    # Updates the displayed word with guessed letters and underscores.
     def update_word_display(self):
         displayed = [letter if letter in self.guessed_letters else "_" for letter in self.secret_word]
         self.word_var.set("Word: " + " ".join(displayed))
 
+    # Processes the player's guessed letter and updates the game state.
     def guess_letter(self):
         letter = self.guess_var.get().strip().lower()
         self.guess_var.set("")
@@ -93,6 +97,7 @@ class GameScreen(ttk.Frame):
             if self.tries_left == 0:
                 self.end_game(won=False)
 
+    # Ends the game, updates user stats, shows message, and returns to menu.
     def end_game(self, won):
         user = self.controller.get_user()
         if user:
@@ -103,12 +108,15 @@ class GameScreen(ttk.Frame):
             messagebox.showinfo("Game Over", f"You lost! The word was: {self.secret_word}")
         self.back_to_menu()
 
+    # Returns to the main menu screen.
     def back_to_menu(self):
         self.controller.show_frame("MainMenu")
 
+    # Clears the hangman drawing from the canvas.
     def clear_hangman(self):
         self.hangman_canvas.delete("all")
 
+    # Draws hangman figure progressively as tries are used.
     def draw_hangman(self):
         self.clear_hangman()
         tries_used = self.max_tries - self.tries_left
@@ -132,5 +140,6 @@ class GameScreen(ttk.Frame):
             self.hangman_canvas.create_line(120, 130, 150, 160, width=2) # right leg
 
 
+# Plays a click sound effect when triggered.
 def play_sound():
     play_sound_effect("assets/sfx/click.wav")

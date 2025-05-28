@@ -5,6 +5,7 @@ from db_handling.user_db import get_user_stats
 
 class StatisticsScreen(ttk.Frame):
     def __init__(self, parent, controller):
+        # Initializes the statistics screen UI elements.
         super().__init__(parent)
         self.controller = controller
 
@@ -19,6 +20,7 @@ class StatisticsScreen(ttk.Frame):
         back_button = ttk.Button(self, text="Back to Menu", command=lambda: (play_sound(), controller.show_frame("MainMenu")), style="TButton")
         back_button.pack(pady=20)
 
+    # Retrieves and displays statistics for the currently logged-in user.
     def refresh_stats(self):
         username = self.controller.get_user()
         stats = get_user_stats(username)
@@ -36,5 +38,6 @@ class StatisticsScreen(ttk.Frame):
 
         self.stats_label.config(text=stats_text)
 
+# Plays a click sound effect when triggered.
 def play_sound():
     play_sound_effect("assets/sfx/click.wav")

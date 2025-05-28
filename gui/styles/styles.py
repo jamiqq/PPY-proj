@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import font as tkfont
 
-# === Cartoon Style Color Palette ===
+# === Color Palette ===
 PRIMARY = "#FF6F61"         # Coral
 SECONDARY = "#FFD93D"       # Sunny yellow
 BACKGROUND = "#FFF8E7"      # Soft cream
@@ -21,14 +21,15 @@ FONT_NORMAL = ("Comic Sans MS", 14)
 FONT_SMALL = ("Comic Sans MS", 12)
 
 def setup_styles():
+    # Initialize ttk style and apply theme
     style = ttk.Style()
 
     try:
-        style.theme_use("clam")
+        style.theme_use("clam") # Use 'clam' theme for better widget appearance if available
     except:
         pass
 
-    # Base widget styles
+    # Configure base styles for Frame, Label, Entry, and Button widgets
     style.configure("TFrame", background=BACKGROUND)
     style.configure("TLabel",
                     background=BACKGROUND,
@@ -53,6 +54,7 @@ def setup_styles():
               background=[("active", BUTTON_HOVER)],
               relief=[("pressed", "sunken")])
 
+    # Configure specialized label styles for titles, errors, and success messages
     style.configure("Title.TLabel",
                     font=FONT_TITLE,
                     background=BACKGROUND,
@@ -68,6 +70,6 @@ def setup_styles():
                     background=BACKGROUND,
                     font=FONT_SMALL)
 
-    # Global font override for legacy widgets
+    # Override default Tkinter font globally for legacy widgets to maintain consistent font family
     default_font = tkfont.nametofont("TkDefaultFont")
     default_font.configure(family="Comic Sans MS", size=11)

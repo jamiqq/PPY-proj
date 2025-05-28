@@ -10,7 +10,7 @@ from gui.play_selection_screen import PlaySelectionScreen
 from gui.game_screen import GameScreen
 from gui.styles.sound_manager import play_background_music
 
-
+# Initializes and starts the application with all GUI frames.
 def start_app():
     app = ScreenController()
     app.add_frame("Login", LoginScreen)
@@ -25,6 +25,7 @@ def start_app():
     app.show_frame("Login")
     app.mainloop()
 
+# Entry point of the application; starts background music and launches the GUI.
 if __name__ == "__main__":
     play_background_music("assets/music/theme.mp3")
     start_app()
