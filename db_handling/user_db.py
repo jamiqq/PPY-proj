@@ -44,7 +44,7 @@ def get_user_stats(username):
             "games_played": games_played,
             "games_won": games_won,
             "games_lost": games_lost,
-            "win_rate": round((games_won / games_played * 100) if games_lost > 0 else 0, 2)
+            "win_rate": round((games_won / games_played * 100) if games_played > 0 else 0, 2)
         }
     return None
 
